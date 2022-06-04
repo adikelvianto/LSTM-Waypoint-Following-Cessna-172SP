@@ -152,3 +152,16 @@ def processing_mat_file_to_csv(mat_path, csv_path, filter_column):
     start_time   = timer()
     print("Number of used data:", len(values)) 
 
+# Function to concatenate csv in folder
+def concat_csv(csv_path, concatenated_file_name):
+    '''csv_path containing folder consist of csv files to concat
+    concatenated_file_name is concatenated csv file name'''
+
+    os.chdir(csv_path)
+    extension = 'csv'
+    all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+    
+    # Combine all files in the list
+    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+    # Export to csv with assigned name
+    combined_csv.to_csv(concatenated_file_name, index=False, encoding='utf-8-sig')
